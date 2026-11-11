@@ -1124,7 +1124,7 @@ body {
 
 @media (min-width: 640px) {
   .footer-grid {
-    grid-template-columns: 2fr repeat(3, 1fr);
+    grid-template-columns: 2fr repeat(4, 1fr);
   }
 }
 
@@ -1184,6 +1184,24 @@ body {
 .attribution {
   font-size: var(--font-size-xs);
   color: var(--color-text-muted);
+}
+
+/* Footer - Left aligned on mobile and tablet */
+@media (max-width: 1024px) {
+  .footer-grid {
+    text-align: left;
+  }
+
+  .footer-brand {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer-nav-group ul {
+    align-items: flex-start;
+  }
 }
 
 /* ==========================================================================
@@ -1353,7 +1371,7 @@ body {
   border-radius: 2px;
 }
 
-/* Mobile Navigation Styles */
+/* Mobile Navigation Styles - Full Screen */
 @media (max-width: 768px) {
   .nav-toggle {
     display: flex;
@@ -1362,44 +1380,49 @@ body {
   .header-nav {
     position: fixed;
     top: 0;
+    left: 0;
     right: 0;
     bottom: 0;
     width: 100%;
-    max-width: 320px;
+    height: 100vh;
+    max-width: none;
     background: var(--color-surface);
-    border-left: 1px solid var(--color-border);
+    border: none;
     flex-direction: column;
-    padding: var(--space-16) var(--space-6) var(--space-8);
-    gap: var(--space-2);
-    transform: translateX(100%);
+    justify-content: center;
+    align-items: center;
+    padding: var(--space-8);
+    gap: var(--space-6);
+    transform: translateY(-100%);
     transition: transform var(--transition-normal) ease;
     z-index: var(--z-sticky);
-    box-shadow: var(--shadow-xl);
+    box-shadow: none;
     overflow-y: auto;
   }
 
   @media (prefers-color-scheme: dark) {
     .header-nav {
       background: var(--color-surface);
-      border-left-color: var(--color-border);
     }
   }
 
   .header-nav.is-open {
-    transform: translateX(0);
+    transform: translateY(0);
   }
 
   .nav-link {
     display: block;
-    padding: var(--space-4) var(--space-2);
-    font-size: var(--font-size-lg);
+    padding: var(--space-4) var(--space-8);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
     border-radius: var(--radius-lg);
     text-align: center;
+    min-width: 280px;
   }
 
   .nav-link:hover {
-    background: var(--color-bg);
-    color: var(--color-primary);
+    background: var(--color-primary);
+    color: var(--color-text-inverse);
   }
 
   /* Overlay when menu is open */
@@ -1407,7 +1430,7 @@ body {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.5);
     z-index: calc(var(--z-sticky) - 1);
     opacity: 0;
     transition: opacity var(--transition-normal) ease;
