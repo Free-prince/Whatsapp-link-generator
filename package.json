@@ -1,0 +1,23 @@
+{
+  "name": "whatsapp-link-generator",
+  "version": "1.0.0",
+  "description": "Create WhatsApp links with prefilled messages, QR codes, and custom short URLs",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve . -p 3000",
+    "start": "npx serve . -p 3000",
+    "preview": "npx serve . -p 3000"
+  },
+  "keywords": [
+    "whatsapp",
+    "link-generator",
+    "qr-code",
+    "url-shortener",
+    "click-to-chat"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}

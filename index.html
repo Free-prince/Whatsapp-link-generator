@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create WhatsApp links with prefilled messages, QR codes, and working short URLs. Watslink - The WhatsApp link generator that actually works.">
+    <title>Watslink - Create WhatsApp Links That Work</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="page">
+        <header class="header">
+            <div class="container header-inner">
+                <a href="/" class="logo" aria-label="Watslink Home">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                    </svg>
+                    <span class="logo-text">Watslink</span>
+                </a>
+                <nav class="header-nav" aria-label="Main navigation" id="header-nav">
+                    <a href="#generator" class="nav-link">Generator</a>
+                    <a href="#features" class="nav-link">Features</a>
+                    <a href="#faq" class="nav-link">FAQ</a>
+                    <a href="privacy.html" class="nav-link">Privacy</a>
+                    <a href="terms.html" class="nav-link">Terms</a>
+                </nav>
+                <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="header-nav">
+                    <span class="nav-toggle-bar" aria-hidden="true"></span>
+                    <span class="nav-toggle-bar" aria-hidden="true"></span>
+                    <span class="nav-toggle-bar" aria-hidden="true"></span>
+                </button>
+            </div>
+        </header>
+
+        <main class="main">
+            <!-- Hero Section - Two Column Layout like walink.com -->
+            <section class="hero-section" aria-labelledby="hero-title">
+                <div class="container">
+                    <div class="hero-grid">
+                        <!-- Left Column - Value Proposition -->
+                        <div class="hero-content">
+                            <span class="hero-badge">WhatsApp Link Generator</span>
+                            <h1 id="hero-title" class="hero-title">Create WhatsApp links<br>that <span class="highlight">actually work</span></h1>
+                            <p class="hero-description">Generate click-to-chat links with custom messages, QR codes, and <strong>working short URLs</strong> (watslink.io/your-brand). No more broken links or preview-only generators.</p>
+                            <div class="hero-stats">
+                                <div class="stat">
+                                    <span class="stat-number">100%</span>
+                                    <span class="stat-label">Client-side</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-number">∞</span>
+                                    <span class="stat-label">Free links</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-number">200+</span>
+                                    <span class="stat-label">Countries</span>
+                                </div>
+                            </div>
+                            <div class="hero-trust">
+                                <span class="trust-badge">Privacy First</span>
+                                <span class="trust-badge">No Tracking</span>
+                                <span class="trust-badge">No Account</span>
+                            </div>
+                        </div>
+
+                        <!-- Right Column - Generator Form -->
+                        <div class="hero-form-card">
+                            <form id="whatsapp-form" class="whatsapp-form" novalidate>
+                                <div class="form-section">
+                                    <h2 class="section-title">Phone Number</h2>
+                                    <div class="phone-input-wrapper">
+                                        <div class="country-select-wrapper">
+                                            <label for="country-code" class="visually-hidden">Country code</label>
+                                            <select id="country-code" name="countryCode" class="country-select" aria-label="Select country code" required>
+                                                <!-- Options populated by JS -->
+                                            </select>
+                                            <span class="select-arrow" aria-hidden="true">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="phone-input-group">
+                                            <label for="phone-number" class="visually-hidden">Phone number</label>
+                                            <input
+                                                type="tel"
+                                                id="phone-number"
+                                                name="phoneNumber"
+                                                class="phone-input"
+                                                placeholder="Phone number"
+                                                aria-label="Enter phone number"
+                                                inputmode="tel"
+                                                pattern="[0-9]*"
+                                                required
+                                            >
+                                        </div>
+                                    </div>
+                                    <p class="form-hint" id="phone-hint">Enter the phone number without the country code (e.g., 5551234567)</p>
+                                </div>
+
+                                <div class="form-section">
+                                    <h2 class="section-title">Prefilled Message <span class="optional-badge">Optional</span></h2>
+                                    <label for="message" class="visually-hidden">Message to prefill in WhatsApp chat</label>
+                                    <textarea
+                                        id="message"
+                                        name="message"
+                                        class="message-input"
+                                        placeholder="Type a message that will appear in the chat..."
+                                        aria-label="Prefilled message"
+                                        rows="3"
+                                        maxlength="2000"
+                                    ></textarea>
+                                    <div class="char-count">
+                                        <span id="char-count-current">0</span>/2000 characters
+                                    </div>
+                                    <p class="form-hint">This message will automatically appear when someone opens your link</p>
+                                </div>
+
+                                <div class="form-section">
+                                    <h2 class="section-title">Custom Short Link <span class="optional-badge">Optional</span></h2>
+                                    <div class="toggle-wrapper">
+                                        <div class="toggle-info">
+                                            <span class="toggle-label">Enable custom link</span>
+                                            <span class="toggle-description">Create a branded short URL like watslink.io/your-brand</span>
+                                        </div>
+                                        <label class="toggle-switch" for="custom-link-toggle">
+                                            <input type="checkbox" id="custom-link-toggle" name="customLinkEnabled" aria-label="Enable custom short link">
+                                            <span class="toggle-slider" aria-hidden="true"></span>
+                                        </label>
+                                    </div>
+                                    <div id="custom-link-field" class="custom-link-field hidden" aria-hidden="true">
+                                        <div class="custom-link-input-wrapper">
+                                            <span class="custom-link-prefix" aria-hidden="true">watslink.io/</span>
+                                            <input
+                                                type="text"
+                                                id="custom-slug"
+                                                name="customSlug"
+                                                class="custom-slug-input"
+                                                placeholder="your-brand"
+                                                aria-label="Custom link slug"
+                                                pattern="[a-zA-Z0-9\-_]+"
+                                                maxlength="50"
+                                            >
+                                        </div>
+                                        <p class="form-hint" id="slug-hint">Use letters, numbers, hyphens, and underscores only</p>
+                                        <p class="form-error hidden" id="slug-error" aria-live="polite"></p>
+                                    </div>
+                                </div>
+
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary btn-generate" id="generate-btn">
+                                        <span class="btn-text">Generate Link</span>
+                                        <span class="btn-loader hidden" aria-hidden="true">
+                                            <svg class="spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
+                                                <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"></path>
+                                            </svg>
+                                        </span>
+                                    </button>
+                                    <button type="reset" class="btn btn-secondary" id="reset-btn">Clear Form</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section (appears after generation) -->
+            <section id="results-section" class="results-section" aria-live="polite" hidden>
+                <div class="container">
+                    <div class="results-grid">
+                        <div class="results-card">
+                            <div class="results-header">
+                                <h2 class="results-title">Your WhatsApp Link</h2>
+                                <button class="btn btn-ghost btn-copy" id="copy-main-link" aria-label="Copy WhatsApp link to clipboard">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                    <span>Copy Link</span>
+                                </button>
+                            </div>
+
+                            <div class="result-item">
+                                <label class="result-label" for="whatsapp-link">Full WhatsApp Link</label>
+                                <div class="result-input-wrapper">
+                                    <input
+                                        type="text"
+                                        id="whatsapp-link"
+                                        class="result-input"
+                                        readonly
+                                        aria-label="Generated WhatsApp link"
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="result-divider" aria-hidden="true"></div>
+
+                            <div class="result-item" id="short-link-item" hidden>
+                                <label class="result-label" for="short-link">Working Short Link</label>
+                                <div class="result-input-wrapper">
+                                    <input
+                                        type="text"
+                                        id="short-link"
+                                        class="result-input"
+                                        readonly
+                                        aria-label="Generated short link"
+                                    >
+                                </div>
+                                <button class="btn btn-ghost btn-copy" id="copy-short-link" aria-label="Copy short link to clipboard">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                    <span>Copy</span>
+                                </button>
+                            </div>
+
+                            <div class="result-divider" aria-hidden="true"></div>
+
+                            <div class="result-item qr-section">
+                                <div class="qr-header">
+                                    <label class="result-label">QR Code</label>
+                                    <div class="qr-actions">
+                                        <button class="btn btn-ghost btn-download" id="download-qr" aria-label="Download QR code as PNG">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                                            </svg>
+                                            <span>Download</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="qr-code-wrapper" id="qr-code-container">
+                                    <div class="qr-placeholder" id="qr-placeholder" aria-hidden="true">
+                                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                                            <rect x="3" y="3" width="7" height="7"></rect>
+                                            <rect x="14" y="3" width="7" height="7"></rect>
+                                            <rect x="3" y="14" width="7" height="7"></rect>
+                                            <rect x="14" y="14" width="7" height="7"></rect>
+                                            <rect x="8" y="8" width="2" height="2"></rect>
+                                            <rect x="16" y="8" width="2" height="2"></rect>
+                                            <rect x="8" y="16" width="2" height="2"></rect>
+                                            <rect x="14" y="16" width="2" height="2"></rect>
+                                        </svg>
+                                        <span>Generate a link to see QR code</span>
+                                    </div>
+                                    <canvas id="qr-canvas" class="qr-canvas" hidden aria-hidden="true"></canvas>
+                                </div>
+                                <p class="qr-caption">Scan with WhatsApp camera to open chat</p>
+                            </div>
+
+                            <div class="result-divider" aria-hidden="true"></div>
+
+                            <div class="result-item">
+                                <label class="result-label">Test Your Link</label>
+                                <a href="#" id="test-link" class="btn btn-outline" target="_blank" rel="noopener noreferrer" hidden>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                                    </svg>
+                                    <span>Open in WhatsApp</span>
+                                </a>
+                                <p class="form-hint" id="test-hint">Click to verify the link works correctly</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section id="features" class="features-section" aria-labelledby="features-title">
+                <div class="container">
+                    <header class="section-header">
+                        <h2 id="features-title" class="section-title-large">Why Watslink?</h2>
+                        <p class="section-description">Everything you need to connect with customers on WhatsApp</p>
+                    </header>
+                    <div class="features-grid">
+                        <article class="feature-card">
+                            <div class="feature-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="feature-title">Instant Click-to-Chat</h3>
+                            <p class="feature-description">Generate wa.me links that open directly in WhatsApp — no need to save contacts first.</p>
+                        </article>
+                        <article class="feature-card">
+                            <div class="feature-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="7" height="7"></rect>
+                                    <rect x="14" y="3" width="7" height="7"></rect>
+                                    <rect x="3" y="14" width="7" height="7"></rect>
+                                    <rect x="14" y="14" width="7" height="7"></rect>
+                                </svg>
+                            </div>
+                            <h3 class="feature-title">QR Code Generation</h3>
+                            <p class="feature-description">Create scannable QR codes for print, packaging, or digital displays. Download as high-resolution PNG.</p>
+                        </article>
+                        <article class="feature-card">
+                            <div class="feature-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                                </svg>
+                            </div>
+                            <h3 class="feature-title">Working Short Links</h3>
+                            <p class="feature-description">Real short URLs (watslink.io/your-brand) that actually redirect. Not previews — they work.</p>
+                        </article>
+                        <article class="feature-card">
+                            <div class="feature-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="feature-title">Prefilled Messages</h3>
+                            <p class="feature-description">Add custom messages that appear automatically when customers start a chat — perfect for inquiries, orders, or support.</p>
+                        </article>
+                        <article class="feature-card">
+                            <div class="feature-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                    <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"></path>
+                                </svg>
+                            </div>
+                            <h3 class="feature-title">Global Country Support</h3>
+                            <p class="feature-description">200+ country codes with search — just type your country name or dial code.</p>
+                        </article>
+                        <article class="feature-card">
+                            <div class="feature-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="feature-title">Privacy First</h3>
+                            <p class="feature-description">No data stored, no tracking, no accounts required. Everything runs in your browser.</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- How It Works Section -->
+            <section class="how-it-works-section" aria-labelledby="how-title">
+                <div class="container">
+                    <header class="section-header">
+                        <h2 id="how-title" class="section-title-large">How It Works</h2>
+                        <p class="section-description">Three simple steps to your working WhatsApp link</p>
+                    </header>
+                    <div class="steps-grid">
+                        <article class="step-card">
+                            <div class="step-number">01</div>
+                            <h3 class="step-title">Enter Details</h3>
+                            <p class="step-description">Add the phone number, select country, and optionally add a prefilled message</p>
+                        </article>
+                        <article class="step-card">
+                            <div class="step-number">02</div>
+                            <h3 class="step-title">Customize</h3>
+                            <p class="step-description">Enable custom short link and choose your brand slug (e.g., watslink.io/your-brand)</p>
+                        </article>
+                        <article class="step-card">
+                            <div class="step-number">03</div>
+                            <h3 class="step-title">Share & Track</h3>
+                            <p class="step-description">Copy your working short link or QR code. The short link actually redirects to WhatsApp.</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ Section -->
+            <section id="faq" class="faq-section" aria-labelledby="faq-title">
+                <div class="container">
+                    <header class="section-header">
+                        <h2 id="faq-title" class="section-title-large">Frequently Asked Questions</h2>
+                    </header>
+                    <dl class="faq-list">
+                        <div class="faq-item">
+                            <dt class="faq-question">
+                                <button class="faq-toggle" aria-expanded="false" aria-controls="faq-1">
+                                    <span>How do Watslink short links actually work?</span>
+                                    <svg class="faq-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </dt>
+                            <dd class="faq-answer" id="faq-1" hidden>
+                                <p>When you create a custom short link (e.g., <code>watslink.io/your-brand</code>), we store the mapping between your slug and the full WhatsApp link in our database. When someone visits <code>watslink.io/your-brand</code>, our server looks up the slug and redirects them to the full WhatsApp link. This happens server-side, so it works everywhere — social media, QR codes, emails, anywhere.</p>
+                            </dd>
+                        </div>
+                        <div class="faq-item">
+                            <dt class="faq-question">
+                                <button class="faq-toggle" aria-expanded="false" aria-controls="faq-2">
+                                    <span>Can I use this for WhatsApp Business?</span>
+                                    <svg class="faq-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </dt>
+                            <dd class="faq-answer" id="faq-2" hidden>
+                                <p>Yes! The links work with both regular WhatsApp and WhatsApp Business accounts. If you have a WhatsApp Business account, you can also use the <code>business</code> parameter for catalog links, but our generator focuses on the standard chat functionality.</p>
+                            </dd>
+                        </div>
+                        <div class="faq-item">
+                            <dt class="faq-question">
+                                <button class="faq-toggle" aria-expanded="false" aria-controls="faq-3">
+                                    <span>Is there a character limit for the prefilled message?</span>
+                                    <svg class="faq-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </dt>
+                            <dd class="faq-answer" id="faq-3" hidden>
+                                <p>WhatsApp doesn't enforce a strict character limit on the <code>text</code> parameter, but URLs have a practical limit of ~2000 characters. We limit the message to 2000 characters to ensure compatibility. For longer content, consider linking to a webpage instead.</p>
+                            </dd>
+                        </div>
+                        <div class="faq-item">
+                            <dt class="faq-question">
+                                <button class="faq-toggle" aria-expanded="false" aria-controls="faq-4">
+                                    <span>Can I track clicks on my Watslink short links?</span>
+                                    <svg class="faq-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </dt>
+                            <dd class="faq-answer" id="faq-4" hidden>
+                                <p>Currently, click tracking is not built into the free version. For analytics, you can use UTM parameters in a landing page that redirects to WhatsApp, or integrate with a URL shortener service that provides analytics (Bitly, Rebrandly, etc.).</p>
+                            </dd>
+                        </div>
+                        <div class="faq-item">
+                            <dt class="faq-question">
+                                <button class="faq-toggle" aria-expanded="false" aria-controls="faq-5">
+                                    <span>Does this work on desktop WhatsApp?</span>
+                                    <svg class="faq-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </dt>
+                            <dd class="faq-answer" id="faq-5" hidden>
+                                <p>Yes! The links work on WhatsApp Web, WhatsApp Desktop, and mobile apps. On desktop, clicking the link opens the web version or prompts to open the desktop app.</p>
+                            </dd>
+                        </div>
+                        <div class="faq-item">
+                            <dt class="faq-question">
+                                <button class="faq-toggle" aria-expanded="false" aria-controls="faq-6">
+                                    <span>What happens if I lose access to my short link?</span>
+                                    <svg class="faq-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </dt>
+                            <dd class="faq-answer" id="faq-6" hidden>
+                                <p>Since this is a free, client-side generator without accounts, short links are stored in a shared database. If you need guaranteed ownership and management of your short links, we recommend using a dedicated URL shortener service (Bitly, Rebrandly) with your own custom domain.</p>
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer" role="contentinfo">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-brand">
+                        <a href="/" class="logo" aria-label="Watslink Home">
+                            <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                            </svg>
+                            <span class="logo-text">Watslink</span>
+                        </a>
+                        <p class="footer-tagline">Create WhatsApp links that actually work</p>
+                    </div>
+                    <nav class="footer-nav" aria-label="Footer navigation">
+                        <div class="footer-nav-group">
+                            <h4 class="footer-nav-title">Generator</h4>
+                            <ul>
+                                <li><a href="#generator">Create Link</a></li>
+                                <li><a href="#generator">QR Codes</a></li>
+                                <li><a href="#generator">Short Links</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-nav-group">
+                            <h4 class="footer-nav-title">Resources</h4>
+                            <ul>
+                                <li><a href="#faq">FAQ</a></li>
+                                <li><a href="#features">Features</a></li>
+                                <li><a href="https://faq.whatsapp.com" target="_blank" rel="noopener">WhatsApp Help</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-nav-group">
+                            <h4 class="footer-nav-title">Legal</h4>
+                            <ul>
+                                <li><a href="privacy.html">Privacy Policy</a></li>
+                                <li><a href="terms.html">Terms of Service</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <div class="footer-bottom">
+                    <p class="copyright">© 2025 Watslink. Not affiliated with WhatsApp or Meta.</p>
+                    <p class="attribution">Built with care for businesses worldwide</p>
+                </div>
+            </div>
+        </footer>
+
+        <div class="toast-container" id="toast-container" aria-live="polite" aria-atomic="true"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
