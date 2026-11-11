@@ -1,6 +1,5 @@
 {
   "name": "watslink",
-  "framework": "none",
   "buildCommand": "",
   "devCommand": "npx serve . -p 3000",
   "installCommand": "",
